@@ -29,14 +29,14 @@ app.use(express.static("public"));
 // Connect to the Mongo DB
 mongoose.Promise = Promise;
 
-const localDbUri = 'mongodb://localhost/Article';
-mongoose.connect(localDbUri, {
-  useMongoClient: true
-});
-// if (process.env.MONGODB_URI) {
+// const localDbUri = 'mongodb://localhost/Article';
+// mongoose.connect(localDbUri, {
+//   useMongoClient: true
+// });
+if (process.env.MONGODB_URI) {
 
-// mongoose.connect(process.env.MONGODB_URI);
-// } else { mongoose.connect(localDbUri);}
+mongoose.connect(process.env.MONGODB_URI);
+} else { mongoose.connect(localDbUri);}
 
 // Start the server
 app.listen(PORT, function() {
