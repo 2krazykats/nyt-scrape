@@ -27,17 +27,18 @@ app.use(express.static("public"));
 
 // Set mongoose to leverage built in JavaScript ES6 Promises
 // Connect to the Mongo DB
-
-const localDbUrl = 'mongodb://localhost/Article';
-
 mongoose.Promise = Promise;
 
-if (process.env.MONGODB_URI) {
+const localDbUri = 'mongodb://localhost/Article';
+mongoose.connect(localDbUri, {
+  useMongoClient: true
+});
+// if (process.env.MONGODB_URI) {
 
-mongoose.connect(process.env.MONGODB_URI);
-} else { mongoose.connect(localDbUrl);}
+// mongoose.connect(process.env.MONGODB_URI);
+// } else { mongoose.connect(localDbUri);}
 
 // Start the server
 app.listen(PORT, function() {
-  console.log("App running on port " + PORT + "!");
+  console.log("App running on port " + PORT);
 });

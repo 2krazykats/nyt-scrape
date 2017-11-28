@@ -22,14 +22,14 @@ app.get("/scrape", function(req, res) {
 
 			var result = {} ;
 
-			//Add the text for each title and the URL and save as properties of the result object
+			//Add the text for each headline and the URL and save as properties of the result object
 			result.headline = $(this)
-				.children("a")
 				.text();
 			result.url = $(this)
 				.children("a")
 				.attr("href");
 			result.summary = $(this)
+				// .attr("summary")
 				.text();
 
 		//Create a new Article using result and resultSum objects from scraping
