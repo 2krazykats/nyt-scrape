@@ -9,7 +9,7 @@ var routes = require("./routes/routes.js");
 // Require all models
 var db = require("./models");
 
-var PORT = 3000;
+var PORT = 3000 || process.env.PORT;
 
 // Initialize Express
 var app = express();
