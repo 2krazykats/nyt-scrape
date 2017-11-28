@@ -29,7 +29,7 @@ app.use(express.static("public"));
 // Connect to the Mongo DB
 mongoose.Promise = Promise;
 
-// const localDbUri = 'mongodb://localhost/Article';
+const localDbUri = 'mongodb://localhost/Article';
 // mongoose.connect(localDbUri, {
 //   useMongoClient: true
 // });
