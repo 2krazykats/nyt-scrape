@@ -75,11 +75,11 @@ app.get("/articles/:id", function(req, res) {
 
 // Route for saving Article's note
 app.post("/articles/:id", function(req, res) {
-	// console.log(req.body);
 	db.Note
 		.create(req.body)
 		.then(function(dbNote) {
-			return db.Article.findOneaAndUpdate( {_id: req.params.id}, { note: dbNote._id }, { new: true });
+	console.log("This is from app.post", dbNote);
+			return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
 		})
 		.then(function(dbArticle) {
 			res.json(dbArticle);
