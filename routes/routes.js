@@ -16,33 +16,35 @@ router.get('/', function(req, res){
 // Scrape the NYT site
 app.get("/scrape", function(req, res) {
 	axios.get("https://nytimes.com").then(function(response) {
-		var $ = cheerio.load(response.data);
+		const $ = cheerio.load(response.data);
+
 
 		$("h2.story-heading, p.summary").each(function(i, element) {
 
 			var result = {} ;
 
-			//Add the text for each headline and the URL and save as properties of the result object
+			// // Add the text for each headline and the URL and save as properties of the result object
 			result.headline = $(this)
 				.text();
 			result.url = $(this)
 				.children("a")
 				.attr("href");
-			result.summary = $(this)
-				// .attr("summary")
+			result.summary = $(this).siblings(".summary")
 				.text();
 
 		//Create a new Article using result and resultSum objects from scraping
 		db.Article
 			.create(result)
 			.then(function(dbArticle) {
-				res.send("Scrape Complete");
+				res.json(dbArticle);
 			})
 			.catch(function(err) {
-          		res.json(err);				
+          		res.json(err);	
+          		// console.log(err);			
 			});
 
-		});
+		// });
+	});
 
 	}); //axios
 }); //app.get
@@ -73,7 +75,8 @@ app.get("/articles/:id", function(req, res) {
 
 // Route for saving Article's note
 app.post("/articles/:id", function(req, res) {
-	db.Article
+	// console.log(req.body);
+	db.Note
 		.create(req.body)
 		.then(function(dbNote) {
 			return db.Article.findOneaAndUpdate( {_id: req.params.id}, { note: dbNote._id }, { new: true });

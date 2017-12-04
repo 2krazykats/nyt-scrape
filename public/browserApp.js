@@ -6,7 +6,7 @@ $(document).ready(function() {
 	$(document).on("click", "#show-articles", initPage);
 
   // Once the page is ready, run the initPage function to kick things off
-  // initPage();
+  initPage();
 
   function initPage() {
   	articlesList.empty();
@@ -22,18 +22,18 @@ $(document).ready(function() {
   function renderArticles(articles) {
   		// console.log(`In renderArticles ${articles}`);
   	var articleListings = [];
+
+	$(".articles").append("<div class='panel panel-default sub-articles'>");
+  	
   	for (var i = 0; i < articles.length; i++) {
   		articleListings.push(articles[i]);
 
   		// Write the data to the page
-	  	$(".articles").append("<div class='panel panel-default sub-articles'>");
 	  	$(".sub-articles").append("<div class='panel-body' data-id='" 
 	  		+ articles[i]._id + "'>" 
-	  		+ articles[i].headline + "<br />"  
+	  		+ "<strong>" + articles[i].headline + "</strong><br />"  
 	  		+ articles[i].summary + "<br />" 
 	  		+ "<a href='" + articles[i].url + "'>" + articles[i].url + "</a></div>");
-	  	// $(".panel-body").append("<div class='notes'>");
-	  		// Add a button for each article
 	 }
 	  	$(".modal-body").attr("display:hidden");
   }
@@ -52,14 +52,6 @@ $(document).ready(function() {
   }
 
 
-// function handleArticleNote() {
-// 	$.post("/articles/:id", ).then(function(data) {
-// 		// Updating database with notes
-// 	})
-// }
-
-
-
 
 	// Whenever someone clicks 
 	$(document).on("click", ".panel-body", function() {
@@ -75,25 +67,21 @@ $(document).ready(function() {
 	  })
 	    // With that done, add the note information to the page
 	    .done(function(data) {
-	      // console.log(data);
+	      console.log(data);
 	      // The headline of the article
 	      $(".notes").append("<h3>" + data.headline + "</h3>");
-	      // // An input to enter a new headline
-	      // $(".notes").append("<input id='headlineinput' name='headline' >");
-	      // A textarea to add a new note body
-	      $(".notes").append("<textarea id='bodyinput' name='body'></textarea>");
+	      // text area to add note
+	      $(".notes").append("<p><textarea class='form-control' id='bodyinput' name='body'></textarea></p>");
 	      // A button to submit a new note, with the id of the article saved to it
-	      $(".notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
+	      $(".notes").append("<p><button type='button' class='btn btn-primary' data-id='" + data._id + "' id='savenote'>Save Note</button></p>");
 
 	      // If there's a note in the article
 	      if (data.note) {
-	        // Place the headline of the note in the headline input
-	        // $("#headlineinput").val(data.note.headline);
-	        // Place the body of the note in the body textarea
 	        $("#bodyinput").val(data.note.body);
 	      }
 	    });
 	});
+
 
 	// Saving the note
 	$(document).on("click", "#savenote", function() {
@@ -104,11 +92,11 @@ $(document).ready(function() {
 			method: "POST",
 			url: "/articles/" + thisId,
 			data: {
-				body: $("bodyinput").val()
+				body: $("#bodyinput").val()
 			}
 		}).done(function(data) {
-			console.log(data);
-			$("#notes").empty();
+			// console.log(data);
+			// $(".notes").empty();
 		});
 		$("#bodyinput").val("");
 	})
